@@ -1,0 +1,25 @@
+{
+  "name": "catalog-service",
+  "version": "1.0.0",
+  "description": "Serviço de catálogo de filmes",
+  "author": "5dvp-t4",
+  "license": "MIT",
+  "scripts": {
+    "dev": "nodemon src/index"
+  },
+  "dependencies": {
+    "@joinf/rabbitmq": "^1.0.0",
+    "axios": "^0.21.1",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "eureka-js-client": "^4.5.0",
+    "express": "^4.17.1",
+    "express-async-errors": "^3.1.1",
+    "jsonwebtoken": "^8.5.1",
+    "pg": "^8.5.1",
+    "youch": "^2.1.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}
