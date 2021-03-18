@@ -8,7 +8,7 @@
     "dev": "nodemon src/index"
   },
   "dependencies": {
-    "@joinf/rabbitmq": "^1.0.0",
+    "@joinf/rabbitmq": "^1.0.1",
     "axios": "^0.21.1",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",

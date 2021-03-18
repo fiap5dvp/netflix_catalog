@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@joinf/rabbitmq@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@joinf/rabbitmq/-/rabbitmq-1.0.0.tgz#eb7be356924666248867e289b4739ef4ddf0b476"
-  integrity sha512-MQ6k2486qJXYnCMr4yO550Piih8nA9jogRdNaSapwM5BrpW0AGAUfebeyC9j6xnkqObB78IwVy8v78kMBHMl0g==
+"@joinf/rabbitmq@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@joinf/rabbitmq/-/rabbitmq-1.0.1.tgz#3d342fd2af25ae9bff48604b3ceadd395213eec4"
+  integrity sha512-W3Cq8OM/nW/0aOBe8CMUTeTyW6KswVgw9bTsYrWx34Kz5Zo3kpZBcpb3/TERBIjchdtFIgLfFWnzutEL96mZ2A==
   dependencies:
     amqplib "^0.7.1"
 

@@ -17,6 +17,37 @@ class MovieModel {
     return movie;
   }
 
+  async update(id, props) {
+    const { name, detail, kinds, tags } = props;
+
+    const response = await db.execute("Select * from movies where id=$1", [id]);
+
+    if (response.rows.length <= 0) {
+      throw {
+        message: "Filme não encontrado",
+        status: 400,
+      };
+    }
+
+    await db.execute(
+      `
+      Update movies set 
+        name = $1, 
+        detail = $2, 
+        kinds = $3, 
+        tags= $4
+      where
+        id = $5
+    `,
+      [name, detail, kinds, tags, id]
+    );
+
+    rabbitMQ.producer.publish("netflix-movies-topic", "rk-alter-movie", {
+      id,
+      props,
+    });
+  }
+
   async list(filter) {
     const response = await db.execute(
       "Select * from movies where upper(name) like $1 or upper(detail) like $1",
@@ -60,13 +91,21 @@ class MovieModel {
     return movies;
   }
 
-  async addHistory({ userId, movieId }) {
-    const message = JSON.stringify({
+  async viewed({ userId, movieId }) {
+    const movie = await this.get(movieId);
+
+    await db.execute(`update movies set views = views + 1 where id = $1`, [
+      movieId,
+    ]);
+
+    const message = {
       userId,
       movieId,
-    });
+      movieName: movie.name,
+      movieDetail: movie.detail,
+    };
 
-    rabbitMQ.producer.publish("netflix_topic", "historics", message);
+    rabbitMQ.producer.publish("netflix-viewed-fanout", "", message);
   }
 }
 

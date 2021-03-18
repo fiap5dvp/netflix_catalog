@@ -11,7 +11,7 @@ class Server {
   constructor() {
     this.server = express();
 
-    // this.initializeBroker();
+    this.initializeBroker();
     this.middlewares();
     this.routes();
     this.exceptionHandler();
@@ -19,11 +19,6 @@ class Server {
 
   async initializeBroker() {
     await rabbitMQ.init("amqp://localhost");
-
-    rabbitMQ.consumer.listen("historics", ({ message, data, channel }) => {
-      console.log(data);
-      channel.ack(message);
-    });
   }
 
   middlewares() {

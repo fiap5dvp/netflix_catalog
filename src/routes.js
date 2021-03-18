@@ -1,7 +1,5 @@
 const { Router } = require("express");
 
-const rabbitMQ = require("./RabbitMQ");
-
 const routes = Router();
 
 const AuthMiddleware = require("./middlewares/AuthMiddleware");
@@ -14,7 +12,8 @@ routes.use("/api", AuthMiddleware);
 
 routes.get("/api/movies", MovieController.list);
 routes.get("/api/movies/:movieId", MovieController.get);
-routes.get("/api/watched/:movieId", MovieController.watched);
+routes.put("/api/movies/:movieId", MovieController.update);
+routes.post("/api/movies/:movieId/viewed", MovieController.viewed);
 
 routes.get("/api/kinds/:kind", KindController.list);
 routes.get("/api/mostviews/:kind", KindController.mostViews);

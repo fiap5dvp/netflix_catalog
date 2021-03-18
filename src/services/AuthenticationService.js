@@ -4,7 +4,7 @@ class AuthenticationService {
   async getUserByToken(token) {
     try {
       const response = await axios({
-        url: `${process.env.URL_AUTHENTICATION}/api/user`,
+        url: `${process.env.URL_AUTHENTICATION}/api/users`,
         method: "GET",
         headers: {
           authorization: `Bearer ${token}`,
