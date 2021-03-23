@@ -18,7 +18,7 @@ class Server {
   }
 
   async initializeBroker() {
-    await rabbitMQ.init("amqp://localhost");
+    await rabbitMQ.init(process.env.RABBIT_MQ_URL);
   }
 
   middlewares() {
@@ -32,6 +32,7 @@ class Server {
     this.server.get("/status", (req, res) => {
       res.send(`${process.env.SERVICE_NAME} service is running`);
     });
+
     this.server.use(routes);
   }
 

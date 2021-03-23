@@ -56,7 +56,6 @@ class MovieModel {
     const tags = {};
 
     response.rows.map((movie) => {
-      console.log(movie);
       const listTags = movie.tags.split(",");
       listTags.map((tag) => {
         const tagName = tag.trim();
@@ -90,7 +89,6 @@ class MovieModel {
     const tags = {};
 
     response.rows.map((movie) => {
-      console.log(movie);
       const listTags = movie.tags.split(",");
       listTags.map((tag) => {
         const tagName = tag.trim();

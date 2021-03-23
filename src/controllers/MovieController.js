@@ -37,7 +37,7 @@ class MovieController {
 
     await MovieModel.update(movieId, { name, detail, kinds, tags });
 
-    res.sendStatus(201);
+    res.sendStatus(204);
   }
 
   async viewed(req, res) {
@@ -45,7 +45,7 @@ class MovieController {
 
     await MovieModel.viewed({ userId: req.user.id, movieId });
 
-    res.sendStatus(201);
+    res.sendStatus(204);
   }
 }
 

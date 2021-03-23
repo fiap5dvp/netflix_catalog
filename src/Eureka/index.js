@@ -1,32 +1,39 @@
 const Eureka = require("eureka-js-client").Eureka;
+const { v4: uuidv4 } = require("uuid");
 
-const eurekaHost = "127.0.0.1";
+exports.register = function ({
+  app,
+  port,
+  hostName,
+  ipAddr,
+  healthCheckUrl,
+  eurekaHost,
+  eurekaPort,
+}) {
+  const instanceId = uuidv4();
 
-exports.register = function (appName, port) {
   const client = new Eureka({
     // application instance information
     instance: {
-      app: appName,
-      // app: `${appName}-${port}`,
-      hostName: "localhost",
-      ipAddr: "127.0.0.1",
+      app,
+      hostName,
+      ipAddr,
       port: {
         $: port,
         "@enabled": "true",
       },
-      instanceId: appName,
-      vipAddress: appName,
-      // vipAddress: `${appName}-${port}`,
-      statusPageUrl: `http://localhost:${port}`,
-      healthCheckUrl: `http://localhost:${port}/status`,
+      instanceId: instanceId,
+      vipAddress: app,
+      statusPageUrl: healthCheckUrl,
+      healthCheckUrl,
       dataCenterInfo: {
         "@class": "com.netflix.appinfo.InstanceInfo$DefaultDataCenterInfo",
         name: "MyOwn",
       },
     },
     eureka: {
-      host: "127.0.0.1",
-      port: 8761,
+      host: eurekaHost,
+      port: eurekaPort,
       servicePath: "/eureka/apps",
       registerWithEureka: true,
       fetchRegistry: true,
