@@ -7,7 +7,7 @@ class UserService {
   async getUser() {
     try {
       const response = await axios({
-        url: `${process.env.URL_AUTHENTICATION}/api/users`,
+        url: `${process.env.USER_SERVICE_URL}/api/users`,
         method: "GET",
         headers: {
           authorization: `Bearer ${this.token}`,
@@ -19,7 +19,7 @@ class UserService {
     } catch (error) {
       throw {
         service: "User",
-        baseUrl: process.env.URL_AUTHENTICATION,
+        baseUrl: process.env.USER_SERVICE_URL,
         error,
       };
     }
@@ -44,7 +44,7 @@ class UserService {
     } catch (error) {
       throw {
         service: "User",
-        baseUrl: process.env.URL_AUTHENTICATION,
+        baseUrl: process.env.USER_SERVICE_URL,
         error,
       };
     }
@@ -69,7 +69,7 @@ class UserService {
     } catch (error) {
       throw {
         service: "User",
-        baseUrl: process.env.URL_AUTHENTICATION,
+        baseUrl: process.env.USER_SERVICE_URL,
         error,
       };
     }
@@ -94,7 +94,7 @@ class UserService {
     } catch (error) {
       throw {
         service: "User",
-        baseUrl: process.env.URL_AUTHENTICATION,
+        baseUrl: process.env.USER_SERVICE_URL,
         error,
       };
     }
