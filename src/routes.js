@@ -15,7 +15,7 @@ routes.get("/api/movies/:movieId", MovieController.get);
 routes.put("/api/movies/:movieId", MovieController.update);
 routes.post("/api/movies/:movieId/viewed", MovieController.viewed);
 
-routes.get("/api/kinds/:kind", KindController.list);
+routes.get("/api/tags/:tag", KindController.list);
 routes.get("/api/mostviews/:kind", KindController.mostViews);
 
 routes.get("/api/tags/:tag", TagController.list);

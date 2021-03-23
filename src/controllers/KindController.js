@@ -2,8 +2,11 @@ const MovieModel = require("../models/MovieModel");
 
 class KindController {
   async list(req, res) {
-    const { kind } = req.params;
-    const movies = await MovieModel.listByKind(kind);
+    const { tag } = req.params;
+
+    const { kind } = req.query;
+
+    const movies = await MovieModel.listByTag(tag, kind);
     res.send(movies);
   }
 

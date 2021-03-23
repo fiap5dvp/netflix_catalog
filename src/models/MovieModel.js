@@ -1,6 +1,5 @@
 const db = require("../services/DatabaseService");
 const rabbitMQ = require("@joinf/rabbitmq");
-
 class MovieModel {
   async get(id) {
     const response = await db.execute("Select * from movies where id=$1", [id]);
@@ -48,32 +47,33 @@ class MovieModel {
     });
   }
 
-  async list(filter) {
+  async list(filter = "", kind = "") {
     const response = await db.execute(
-      "Select * from movies where upper(name) like $1 or upper(detail) like $1",
-      ["%" + filter.toUpperCase() + "%"]
+      "Select * from movies where upper(name) like $1 or upper(detail) like $1 and upper(kinds) like $2",
+      ["%" + filter.toUpperCase() + "%", "%" + kind.toUpperCase() + "%"]
     );
 
-    const movie = response.rows;
+    const tags = {};
 
-    return movie;
+    response.rows.map((movie) => {
+      console.log(movie);
+      const listTags = movie.tags.split(",");
+      listTags.map((tag) => {
+        const tagName = tag.trim();
+
+        if (!tags[tagName]) tags[tagName] = [];
+
+        tags[tagName].push(movie);
+      });
+    });
+
+    return tags;
   }
 
-  async listByKind(kind) {
+  async listByTag(tag, kind = "") {
     const response = await db.execute(
-      `Select * from movies where upper(kinds) like $1`,
-      ["%" + kind.toUpperCase() + "%"]
-    );
-
-    const movies = response.rows;
-
-    return movies;
-  }
-
-  async listByTag(tag) {
-    const response = await db.execute(
-      `Select * from movies where upper(tags) like $1`,
-      ["%" + tag.toUpperCase() + "%"]
+      `Select * from movies where upper(kinds) like $1 and upper(tags) like $2`,
+      ["%" + kind.toUpperCase() + "%", "%" + tag.toUpperCase() + "%"]
     );
 
     const movies = response.rows;
@@ -83,12 +83,25 @@ class MovieModel {
 
   async listMostViews(kind) {
     const response = await db.execute(
-      `Select * from movies where upper(kinds) like $1 order by views limit 10`,
+      `Select * from movies where upper(kinds) like $1 and views > 0 order by views limit 10 `,
       ["%" + kind.toUpperCase() + "%"]
     );
 
-    const movies = response.rows;
-    return movies;
+    const tags = {};
+
+    response.rows.map((movie) => {
+      console.log(movie);
+      const listTags = movie.tags.split(",");
+      listTags.map((tag) => {
+        const tagName = tag.trim();
+
+        if (!tags[tagName]) tags[tagName] = [];
+
+        tags[tagName].push(movie);
+      });
+    });
+
+    return tags;
   }
 
   async viewed({ userId, movieId }) {
@@ -103,6 +116,7 @@ class MovieModel {
       movieId,
       movieName: movie.name,
       movieDetail: movie.detail,
+      moviePoster: movie.poster,
     };
 
     rabbitMQ.producer.publish("netflix-viewed-fanout", "", message);

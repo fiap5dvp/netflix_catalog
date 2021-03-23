@@ -1,4 +1,4 @@
-const AuthenticationService = require("../services/AuthenticationService");
+const UserService = require("../services/UserService");
 
 module.exports = async (req, res, next) => {
   const authHeader = req.headers.authorization;
@@ -13,7 +13,11 @@ module.exports = async (req, res, next) => {
 
   if (!token) return res.status(401).send("Token inválido");
 
-  const user = await AuthenticationService.getUserByToken(token);
+  const userService = new UserService(token);
+
+  const user = await userService.getUser();
+
+  req.token = token;
 
   req.user = user;
 
