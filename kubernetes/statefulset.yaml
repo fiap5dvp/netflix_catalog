@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: catalog-database
+spec:
+  selector:
+    matchLabels:
+      app: catalog-database
+  serviceName: catalog-service
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: catalog-database
+    spec:
+      containers:
+        - name: catalog-database
+          image: lucaslimas/fiap-netiflix:catalog
+          volumeMounts:
+            - name: catalog-db-disk
+              mountPath: /var/lib/catalogql/data
+  volumeClaimTemplates:
+    - metadata:
+        name: catalog-db-disk
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 10Gi
