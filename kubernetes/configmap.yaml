@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: catalog-cm
+data:
+  .env: |
+    SERVICE_NAME=catalog
+    HOST_NAME=$(hostname)
+    PORT=3000
+    HELTH_CHECK_URL="/status"
+    EUREKA_HOST=eureka.eureka.svc.cluster.local
+    EUREKA_PORT=8761
