@@ -20,3 +20,14 @@ spec:
       image: 471524526724.dkr.ecr.us-east-1.amazonaws.com/netflix-catalog:latest
       ports:
       - containerPort: 3000
+      volumeMounts:
+      - name: env
+        mountPath: /app/.env
+        subPath: .env
+  volumes:
+    - name: env
+      configMap:
+        name: catalog-cm
+        items:
+        - key: .env
+          path: .env
